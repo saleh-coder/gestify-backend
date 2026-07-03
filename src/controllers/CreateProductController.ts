@@ -10,9 +10,11 @@ import { CreateProductService } from "../service/CreateProductService.js";
 class CreateProductController {
   async handle(req: Request, res: Response): Promise<void> {
     try {
-      const { name, description, price, stock_quantity, user_id } = req.body;
+      const { name, description, price, stock_quantity } = req.body;
 
-      if (!name || !price || stock_quantity === undefined || !user_id) {
+      const user_id = req.user.id;
+
+      if (!name || !price || stock_quantity === undefined) {
         res.status(400).json({ error: "Campos obrigatórios ausentes." });
         return;
       }
@@ -26,7 +28,10 @@ class CreateProductController {
         user_id,
       });
 
-      res.status(201).json(product);
+      res.status(201).json({
+        ...product,
+        price: Number(product.price).toFixed(2),
+      });
     } catch (error: any) {
       res.status(400).json({ error: error.message });
     }

@@ -12,12 +12,7 @@ class ListProductsController {
     try {
       // Temporariamente capturando o id via query params (ex: ?user_id=...)
       // até ativarmos a trava do Token JWT
-      const user_id = req.query.user_id as string;
-
-      if (!user_id) {
-        res.status(400).json({ error: "O parâmetro user_id é obrigatório." });
-        return;
-      }
+      const user_id = req.user.id;
 
       const listProductsService = new ListProductsService();
       const products = await listProductsService.execute({ user_id });

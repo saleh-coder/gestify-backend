@@ -30,3 +30,21 @@ Content-Type: application/json
 
 ### Rota de Listagem de Produtos (Estoque)
 GET http://localhost:3000/products?user_id=bb81a27f-217c-4aa5-8e35-3685953f28ec
+
+### Rota de Cadastro de Produto (Estoque) - PROTEGIDA
+POST http://localhost:3000/products
+Content-Type: application/json
+Authorization: Bearer COLE_AQUI_AQUELE_TOKEN_GIGANTE_DO_LOGIN
+
+{
+  "name": "Camiseta Algodão Premium V2",
+  "description": "Camiseta 100% algodão com proteção JWT",
+  "price": 99.90,
+  "stock_quantity": 30
+}
+
+###
+
+### Rota de Listagem de Produtos (Estoque) - PROTEGIDA
+GET http://localhost:3000/products
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW1hbCBTYWxlaCIsImVtYWlsIjoiYW1hbEBlbWFpbC5jb20iLCJpYXQiOjE3ODMxMDY5NjksImV4cCI6MTc4MzE5MzM2OSwic3ViIjoiYmI4MWEyN2YtMjE3Yy00YWE1LThlMzUtMzY4NTk1M2YyOGVjIn0.VIzd42wmiIQBj8tOG22y7MA40EW5-uNHh4b6Yk1ATDE

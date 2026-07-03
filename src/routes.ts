@@ -9,6 +9,7 @@ import createUserController from "./controllers/CreateUserController.js";
 import authUserController from "./controllers/AuthUserController.js";
 import createProductController from "./controllers/CreateProductController.js";
 import listProductsController from "./controllers/ListProductsController.js";
+import { isAuthenticated } from "./config/isAuthenticated.js";
 
 const routes = Router();
 
@@ -18,11 +19,10 @@ routes.post("/users", createUserController.handle);
 // Rota para autenticação de comerciantes no ecossistema ERP
 routes.post("/auth", authUserController.handle);
 
-// Rotas do Módulo de Estoque (Produtos)
+// Rota para criação de novos produtos no estoque
+routes.post("/products", isAuthenticated, createProductController.handle);
 
-// Rota de Cadastro de Produtos no estoque
-routes.post("/products", createProductController.handle);
-
-routes.get("/products", listProductsController.handle); // Nova Rota GET adicionada
+// Rota para listagem de produtos no estoque
+routes.get("/products", isAuthenticated, listProductsController.handle);
 
 export default routes;
