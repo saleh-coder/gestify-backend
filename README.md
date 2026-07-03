@@ -37,9 +37,9 @@ Para demonstrar o planejamento e acompanhamento de um projeto profissional, o de
   - [x] Rota de login com validação de senha.
   - [x] Geração de sessão através de JSON Web Tokens (JWT).
   - [x] Middleware de proteção de rotas para interceptar requisições não autorizadas.
-- [ ] **Etapa 3: Motor de Estoque (CRUD de Produtos)**
+- [x] **Etapa 3: Motor de Estoque (CRUD de Produtos)**
   - [x] Mapeamento da entidade de Produtos.
-  - [ ] Isolamento de dados por lojista (um comerciante só altera seu próprio estoque).
+  - [x] Isolamento de dados por lojista (um comerciante só altera seu próprio estoque).
 - [ ] **Etapa 4: Transações Financeiras e Checkout**
   - [ ] Processamento de vendas com múltiplos itens.
   - [ ] Subtração de níveis de estoque com segurança ACID.
