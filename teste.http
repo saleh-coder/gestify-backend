@@ -6,3 +6,12 @@ Content-Type: application/json
   "email": "amal2@email.com",
   "password_plain": "senha123"
 }
+
+### Rota de Autenticação (Login)
+POST http://localhost:3000/auth
+Content-Type: application/json
+
+{
+  "email": "amal@email.com",
+  "password_plain": "senha123"
+}

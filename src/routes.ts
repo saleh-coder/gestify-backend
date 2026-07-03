@@ -6,10 +6,14 @@
 
 import { Router } from "express";
 import createUserController from "./controllers/CreateUserController.js";
+import authUserController from "./controllers/AuthUserController.js";
 
 const routes = Router();
 
 // Rota para criação de novos comerciantes no ecossistema ERP
 routes.post("/users", createUserController.handle);
+
+// Rota para autenticação de comerciantes no ecossistema ERP
+routes.post("/auth", authUserController.handle);
 
 export default routes;
