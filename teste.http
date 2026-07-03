@@ -27,3 +27,6 @@ Content-Type: application/json
   "stock_quantity": 50,
   "user_id": "bb81a27f-217c-4aa5-8e35-3685953f28ec"
 }
+
+### Rota de Listagem de Produtos (Estoque)
+GET http://localhost:3000/products?user_id=bb81a27f-217c-4aa5-8e35-3685953f28ec
