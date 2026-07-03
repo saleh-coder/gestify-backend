@@ -1,0 +1,55 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password_hash String
+  created_at    DateTime @default(now())
+  products      Product[]
+  sales         Sale[]
+
+  @@map("users")
+}
+
+model Product {
+  id             String   @id @default(uuid())
+  name           String
+  description    String?
+  price          Decimal
+  stock_quantity Int
+  user_id        String
+  user           User     @relation(fields: [user_id], references: [id])
+  sale_items     SaleItem[]
+
+  @@map("products")
+}
+
+model Sale {
+  id          String   @id @default(uuid())
+  total_price Decimal
+  created_at  DateTime @default(now())
+  user_id     String
+  user        User     @relation(fields: [user_id], references: [id])
+  sale_items  SaleItem[]
+
+  @@map("sales")
+}
+
+model SaleItem {
+  id            String  @id @default(uuid())
+  quantity      Int
+  price_at_sale Decimal
+  sale_id       String
+  sale          Sale    @relation(fields: [sale_id], references: [id])
+  product_id    String
+  product       Product @relation(fields: [product_id], references: [id])
+
+  @@map("sale_items")
+}

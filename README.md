@@ -1,0 +1,102 @@
+# 📑 Gestify – Motor Backend ERP
+
+Um motor backend de alta performance, fortemente tipado, projetado para capacitar pequenos comerciantes locais através da substituição do controle manual em papel por um ecossistema robusto de gerenciamento de estoque e vendas integrado à nuvem.
+
+---
+
+## 🏛️ Estratégia Arquitetural e Justificativa de Negócio
+
+Este repositório foi construído com foco estrito em princípios de código limpo (Clean Code), escolhas técnicas conscientes e alinhamento com as necessidades de negócio:
+
+- **Autoridade Técnica (Arquitetura):** Desenvolvido utilizando uma arquitetura desacoplada em camadas (Controladores, Serviços e Configurações) [^4^]. A compilação estrita do TypeScript garante a segurança de tipos em tempo de desenvolvimento, enquanto o Prisma 7 isola as operações de dados das regras de negócio.
+- **Lógica de Engenharia (Decisão do Banco de Dados):** O PostgreSQL foi escolhido em vez de alternativas NoSQL para garantir total conformidade com as regras ACID. Isso assegura a integridade referencial rígida para dados financeiros sensíveis e bloqueia a corrupção de dados diretamente no nível do banco.
+- **Impacto Operacional:** Criado para resolver uma dor real de comércios tradicionais. A aplicação automatiza os ajustes de estoque e os relatórios de vendas, transformando processos manuais em inteligência de dados escalável.
+
+---
+
+## 🎯 Funcionalidades Principais e Escopo (O Projeto Completo)
+
+O motor do Gestify foi planejado para gerenciar o ciclo operacional completo de uma pequena empresa:
+
+1.  **Autenticação do Comerciante:** Cadastro seguro e controle de sessão através de tokens criptografados.
+2.  **Controle Inteligente de Estoque (CRUD):** Gerenciamento completo de produtos atrelado estritamente ao dono da loja autenticado.
+3.  **Motor de Vendas Transacional:** Registro de vendas com subtração de estoque em tempo real e proteção contra a alteração histórica de preços.
+4.  **Painel de Insights Financeiros:** Consultas de alta performance que entregam métricas como faturamento total e produtos mais vendidos.
+
+---
+
+## 🗺️ Roadmap do Projeto e Status Atual
+
+Para demonstrar o planejamento e acompanhamento de um projeto profissional, o desenvolvimento está dividido em etapas claras:
+
+- [x] **Etapa 1: Arquitetura e Cadastro do Comerciante**
+  - [x] Modelagem do banco de dados (PostgreSQL + Schemas do Prisma).
+  - [x] Criptografia de senha segura com Bcrypt.
+  - [x] Configuração da estrutura em camadas (Controllers, Services, Routes, Express Server) [^4^].
+- [ ] **Etapa 2: Segurança e Portão de Autenticação**
+  - [ ] Rota de login com validação de senha.
+  - [ ] Geração de sessão através de JSON Web Tokens (JWT).
+  - [ ] Middleware de proteção de rotas para interceptar requisições não autorizadas.
+- [ ] **Etapa 3: Motor de Estoque (CRUD de Produtos)**
+  - [ ] Mapeamento da entidade de Produtos.
+  - [ ] Isolamento de dados por lojista (um comerciante só altera seu próprio estoque).
+- [ ] **Etapa 4: Transações Financeiras e Checkout**
+  - [ ] Processamento de vendas com múltiplos itens.
+  - [ ] Subtração de níveis de estoque com segurança ACID.
+  - [ ] Travamento histórico de preços dentro de entidades intermediárias.
+
+---
+
+## 🛠️ Tecnologias e Dependências
+
+### Aplicação Principal (Produção)
+
+- **Node.js & Express:** Servidor HTTP leve com configuração moderna de ES Modules.
+- **Prisma 7 & `@prisma/adapter-pg`:** ORM de última geração utilizando arquitetura de conexão otimizada para nuvem.
+- **PostgreSQL (Banco de Dados Neon Cloud):** Banco relacional com regras nativas de SSL e desvio de pool de conexões.
+- **Bcrypt:** Algoritmo de criptografia seguro para ocultação unidirecional de senhas.
+- **Dotenv:** Encapsulamento de variáveis de ambiente em tempo de execução.
+
+### Ferramentas de Engenharia (Desenvolvimento)
+
+- **TypeScript:** Compilador de tipagem segura visando o padrão estrito ES2022.
+- **tsx:** Execução nativa e em tempo real de TypeScript com hot-reloading.
+- **Prisma CLI:** Motor automatizado de migrações de banco de dados e geração de cliente.
+
+---
+
+## 🚀 Instalação e Configuração Local
+
+1. **Clone o repositório:**
+
+   ```bash
+   git clone https://github.com
+   cd gestify-backend
+   ```
+
+2. **Instale as dependências:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Configure as Variáveis de Ambiente:**
+   Crie um arquivo `.env` na raiz do projeto:
+
+   ```env
+   PORT=3000
+   DATABASE_URL="sua_url_de_pool_do_neon"
+   DIRECT_URL="sua_url_direta_do_neon"
+   ```
+
+4. **Sincronize as Migrações do Banco:**
+
+   ```bash
+   npx prisma migrate dev --name init
+   npx prisma generate
+   ```
+
+5. **Inicie o Servidor de Desenvolvimento:**
+   ```bash
+   npm run dev
+   ```
