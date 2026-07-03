@@ -15,3 +15,15 @@ Content-Type: application/json
   "email": "amal@email.com",
   "password_plain": "senha123"
 }
+
+### Rota de Cadastro de Produto (Estoque)
+POST http://localhost:3000/products
+Content-Type: application/json
+
+{
+  "name": "Camiseta Algodão Premium",
+  "description": "Camiseta 100% algodão fio 30.1 penteado",
+  "price": 89.90,
+  "stock_quantity": 50,
+  "user_id": "bb81a27f-217c-4aa5-8e35-3685953f28ec"
+}

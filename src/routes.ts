@@ -7,6 +7,7 @@
 import { Router } from "express";
 import createUserController from "./controllers/CreateUserController.js";
 import authUserController from "./controllers/AuthUserController.js";
+import createProductController from "./controllers/CreateProductController.js"; // Importa o novo controlador
 
 const routes = Router();
 
@@ -15,5 +16,8 @@ routes.post("/users", createUserController.handle);
 
 // Rota para autenticação de comerciantes no ecossistema ERP
 routes.post("/auth", authUserController.handle);
+
+// Rota de Cadastro de Produtos no estoque
+routes.post("/products", createProductController.handle);
 
 export default routes;
