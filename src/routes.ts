@@ -10,19 +10,19 @@ import authUserController from "./controllers/AuthUserController.js";
 import createProductController from "./controllers/CreateProductController.js";
 import listProductsController from "./controllers/ListProductsController.js";
 import { isAuthenticated } from "./config/isAuthenticated.js";
+import { createSaleController } from "./controllers/CreateSaleController.js";
 
 const routes = Router();
 
-// Rota para criação de novos comerciantes no ecossistema ERP
+// Roteamento de Usuários e Autenticação
 routes.post("/users", createUserController.handle);
-
-// Rota para autenticação de comerciantes no ecossistema ERP
 routes.post("/auth", authUserController.handle);
 
-// Rota para criação de novos produtos no estoque
+// Roteamento de Produtos (Protegidos)
 routes.post("/products", isAuthenticated, createProductController.handle);
-
-// Rota para listagem de produtos no estoque
 routes.get("/products", isAuthenticated, listProductsController.handle);
+
+// Roteamento de Vendas e Checkout (Protegido)
+routes.post("/sales", isAuthenticated, createSaleController.handle);
 
 export default routes;

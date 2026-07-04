@@ -1,3 +1,8 @@
+### ==========================================
+### ETAPA 1 e 2: USUÁRIOS E AUTENTICAÇÃO
+### ==========================================
+
+### Cadastro de Comerciante
 POST http://localhost:3000/users
 Content-Type: application/json
 
@@ -6,6 +11,8 @@ Content-Type: application/json
   "email": "amal2@email.com",
   "password_plain": "senha123"
 }
+
+###
 
 ### Rota de Autenticação (Login)
 POST http://localhost:3000/auth
@@ -16,25 +23,16 @@ Content-Type: application/json
   "password_plain": "senha123"
 }
 
-### Rota de Cadastro de Produto (Estoque)
+###
+
+### ==========================================
+### ETAPA 3: PRODUTOS (ROTAS PROTEGIDAS)
+### ==========================================
+
+### Cadastro de Produto - PROTEGIDA
 POST http://localhost:3000/products
 Content-Type: application/json
-
-{
-  "name": "Camiseta Algodão Premium",
-  "description": "Camiseta 100% algodão fio 30.1 penteado",
-  "price": 89.90,
-  "stock_quantity": 50,
-  "user_id": "bb81a27f-217c-4aa5-8e35-3685953f28ec"
-}
-
-### Rota de Listagem de Produtos (Estoque)
-GET http://localhost:3000/products?user_id=bb81a27f-217c-4aa5-8e35-3685953f28ec
-
-### Rota de Cadastro de Produto (Estoque) - PROTEGIDA
-POST http://localhost:3000/products
-Content-Type: application/json
-Authorization: Bearer COLE_AQUI_AQUELE_TOKEN_GIGANTE_DO_LOGIN
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW1hbCBTYWxlaCIsImVtYWlsIjoiYW1hbEBlbWFpbC5jb20iLCJpYXQiOjE3ODMxMjQ4ODQsImV4cCI6MTc4MzIxMTI4NCwic3ViIjoiYmI4MWEyN2YtMjE3Yy00YWE1LThlMzUtMzY4NTk1M2YyOGVjIn0.4Mo79Fnjj1-w1PqQL0qyni_knWJH8XLuxoFA6k4hbAA
 
 {
   "name": "Camiseta Algodão Premium V2",
@@ -45,6 +43,47 @@ Authorization: Bearer COLE_AQUI_AQUELE_TOKEN_GIGANTE_DO_LOGIN
 
 ###
 
-### Rota de Listagem de Produtos (Estoque) - PROTEGIDA
+### Listagem de Produtos - PROTEGIDA
+# Substitua o token abaixo pelo gerado no login mais recente
 GET http://localhost:3000/products
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW1hbCBTYWxlaCIsImVtYWlsIjoiYW1hbEBlbWFpbC5jb20iLCJpYXQiOjE3ODMxMDY5NjksImV4cCI6MTc4MzE5MzM2OSwic3ViIjoiYmI4MWEyN2YtMjE3Yy00YWE1LThlMzUtMzY4NTk1M2YyOGVjIn0.VIzd42wmiIQBj8tOG22y7MA40EW5-uNHh4b6Yk1ATDE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW1hbCBTYWxlaCIsImVtYWlsIjoiYW1hbEBlbWFpbC5jb20iLCJpYXQiOjE3ODMxMjgwNzcsImV4cCI6MTc4MzIxNDQ3Nywic3ViIjoiYmI4MWEyN2YtMjE3Yy00YWE1LThlMzUtMzY4NTk1M2YyOGVjIn0.zSIuUhQAZ7V7CoEuj2384kEq7EoRIThpL1Pp1IbliYY
+
+###
+
+### ==========================================
+### ETAPA 4: TRANSAÇÕES FINANCEIRAS E CHECKOUT
+### ==========================================
+
+### Registrar uma Nova Venda com Sucesso
+# Venda ajustada para focar apenas no produto real que você possui em estoque
+POST http://localhost:3000/sales
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW1hbCBTYWxlaCIsImVtYWlsIjoiYW1hbEBlbWFpbC5jb20iLCJpYXQiOjE3ODMxMjgwNzcsImV4cCI6MTc4MzIxNDQ3Nywic3ViIjoiYmI4MWEyN2YtMjE3Yy00YWE1LThlMzUtMzY4NTk1M2YyOGVjIn0.zSIuUhQAZ7V7CoEuj2384kEq7EoRIThpL1Pp1IbliYY
+
+{
+  "customer_name": "Maria do Bolo",
+  "items": [
+    {
+      "product_id": "ec82755b-b9ed-44b0-b2f6-eab424849fb3",
+      "quantity": 2
+    }
+  ]
+}
+
+###
+
+### Testar Erro: Venda com Estoque Insuficiente
+# Testando o Rollback automático usando o seu ID de produto real com quantidade abusiva
+POST http://localhost:3000/sales
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW1hbCBTYWxlaCIsImVtYWlsIjoiYW1hbEBlbWFpbC5jb20iLCJpYXQiOjE3ODMxMjQ4ODQsImV4cCI6MTc4MzIxMTI4NCwic3ViIjoiYmI4MWEyN2YtMjE3Yy00YWE1LThlMzUtMzY4NTk1M2YyOGVjIn0.4Mo79Fnjj1-w1PqQL0qyni_knWJH8XLuxoFA6k4hbAA
+
+{
+  "customer_name": "Cliente Teste Erro",
+  "items": [
+    {
+      "product_id": "ec82755b-b9ed-44b0-b2f6-eab424849fb3",
+      "quantity": 99999
+    }
+  ]
+}

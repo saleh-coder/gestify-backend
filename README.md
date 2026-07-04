@@ -40,10 +40,10 @@ Para demonstrar o planejamento e acompanhamento de um projeto profissional, o de
 - [x] **Etapa 3: Motor de Estoque (CRUD de Produtos)**
   - [x] Mapeamento da entidade de Produtos.
   - [x] Isolamento de dados por lojista (um comerciante só altera seu próprio estoque).
-- [ ] **Etapa 4: Transações Financeiras e Checkout**
-  - [ ] Processamento de vendas com múltiplos itens.
-  - [ ] Subtração de níveis de estoque com segurança ACID.
-  - [ ] Travamento histórico de preços dentro de entidades intermediárias.
+- [x] **Etapa 4: Transações Financeiras e Checkout**
+  - [x] Processamento de vendas com múltiplos itens.
+  - [x] Subtração de níveis de estoque com segurança ACID.
+  - [x] Travamento histórico de preços dentro de entidades intermediárias.
 
 ---
 

@@ -1,5 +1,5 @@
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
 }
 
 generator client {
@@ -7,11 +7,11 @@ generator client {
 }
 
 model User {
-  id            String   @id @default(uuid())
+  id            String    @id @default(uuid())
   name          String
-  email         String   @unique
+  email         String    @unique
   password_hash String
-  created_at    DateTime @default(now())
+  created_at    DateTime  @default(now())
   products      Product[]
   sales         Sale[]
 
@@ -19,37 +19,38 @@ model User {
 }
 
 model Product {
-  id             String   @id @default(uuid())
+  id             String     @id @default(uuid())
   name           String
   description    String?
-  price          Decimal
+  price          Decimal    @db.Decimal(10, 2)
   stock_quantity Int
   user_id        String
-  user           User     @relation(fields: [user_id], references: [id])
+  user           User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
   sale_items     SaleItem[]
 
   @@map("products")
 }
 
 model Sale {
-  id          String   @id @default(uuid())
-  total_price Decimal
-  created_at  DateTime @default(now())
-  user_id     String
-  user        User     @relation(fields: [user_id], references: [id])
-  sale_items  SaleItem[]
+  id            String     @id @default(uuid())
+  customer_name String?
+  total_price   Decimal    @db.Decimal(10, 2)
+  created_at    DateTime   @default(now())
+  user_id       String
+  user          User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  sale_items    SaleItem[]
 
   @@map("sales")
 }
 
 model SaleItem {
-  id            String  @id @default(uuid())
+  id            String   @id @default(uuid())
   quantity      Int
-  price_at_sale Decimal
+  price_at_sale Decimal  @db.Decimal(10, 2)
   sale_id       String
-  sale          Sale    @relation(fields: [sale_id], references: [id])
+  sale          Sale     @relation(fields: [sale_id], references: [id], onDelete: Cascade)
   product_id    String
-  product       Product @relation(fields: [product_id], references: [id])
+  product       Product  @relation(fields: [product_id], references: [id], onDelete: Restrict)
 
   @@map("sale_items")
 }
