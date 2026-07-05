@@ -1,9 +1,3 @@
-/**
- * ROUTING LAYER
- * Mapeamento de endpoints HTTP da aplicação.
- * Conecta as URLs expostas aos controladores responsáveis pelas regras de negócio.
- */
-
 import { Router } from "express";
 import createUserController from "./controllers/CreateUserController.js";
 import authUserController from "./controllers/AuthUserController.js";
@@ -14,6 +8,7 @@ import { createSaleController } from "./controllers/CreateSaleController.js";
 import { ListSalesController } from "./controllers/ListSalesController.js";
 import { DeleteProductController } from "./controllers/DeleteProductController.js";
 import { UpdateProductController } from "./controllers/UpdateProductController.js";
+import { ExportSalesController } from "./controllers/ExportSalesController.js";
 
 const routes = Router();
 
@@ -21,6 +16,7 @@ const routes = Router();
 const listSalesController = new ListSalesController();
 const deleteProductController = new DeleteProductController();
 const updateProductController = new UpdateProductController();
+const exportSalesController = new ExportSalesController();
 
 // 👤 ROTEAMENTO DE USUÁRIOS E AUTENTICAÇÃO
 routes.post("/users", createUserController.handle);
@@ -40,5 +36,6 @@ routes.get(
   isAuthenticated,
   listSalesController.handleMetrics,
 );
+routes.get("/sales/export", isAuthenticated, exportSalesController.handle);
 
 export default routes;

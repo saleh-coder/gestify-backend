@@ -156,3 +156,12 @@ Authorization: Bearer {{token}}
   "price": 89.90,
   "stock_quantity": 45
 }
+
+### ==========================================
+### 📊 ETAPA 7: EXPORTAÇÃO E AUDITORIA FISCAL
+### ==========================================
+
+### Exportar Histórico de Vendas em formato CSV
+# @name exportSalesToCSV
+GET {{baseUrl}}/sales/export
+Authorization: Bearer {{token}}
