@@ -41,7 +41,7 @@ Authorization: Bearer {{token}}
 
 {
   "name": "Camiseta Algodão Premium V2",
-  "description": "Camiseta 100% algodão com proteção JWT",
+  "description": "100% premium cotton shirt with JWT route shielding protection",
   "price": 99.90,
   "stock_quantity": 30
 }
@@ -79,7 +79,7 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
 {
-  "customer_name": "Cliente Teste Erro",
+  "customer_name": "Insufficient Stock Test Client",
   "items": [
     {
       "product_id": "ec82755b-b9ed-44b0-b2f6-eab424849fb3",
@@ -141,7 +141,7 @@ Authorization: Bearer {{token}}
 
 # @name deleteProductSuccess
 # Success Scenario: Requires a newly generated UUID from a product with zero transaction history.
-DELETE {{baseUrl}}/products/COLE_AQUI_O_ID_DO_PRODUTO_SEM_VENDAS
+DELETE {{baseUrl}}/products/PASTE_PRODUCT_ID_WITH_ZERO_SALES_HISTORY_HERE
 Authorization: Bearer {{token}}
 
 ###
@@ -158,15 +158,89 @@ Authorization: Bearer {{token}}
 }
 
 ### ==========================================
-### 📊 ETAPA 7: EXPORTAÇÃO E AUDITORIA FISCAL
+### STAGE 7: EXPORTATION & FISCAL AUDITING
 ### ==========================================
 
-### Exportar Histórico de Vendas em formato CSV
 # @name exportSalesToCSV
 GET {{baseUrl}}/sales/export
 Authorization: Bearer {{token}}
 
-### 🏥 API Health Status Check
+###
+
+# @name apiHealthCheck
 GET {{baseUrl}}/health
 
+### ==========================================
+### 👥 STAGE 8: CRM & CUSTOMER MANAGEMENT
+### ==========================================
+
+# @name createCustomer
+POST {{baseUrl}}/customers
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "name": "Maria Souza",
+  "email": "maria.souza@email.com",
+  "phone": "11999998888"
+}
+
 ###
+
+# @name listCustomers
+GET {{baseUrl}}/customers
+Authorization: Bearer {{token}}
+
+###
+
+# @name updateCustomerDetails
+PUT {{baseUrl}}/customers/1fec6683-65fc-4ed1-abb3-9636e7b45f80
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "name": "Maria Souza Modificada",
+  "phone": "11988887777"
+}
+
+###
+
+# @name checkoutLinkedToCRM
+POST {{baseUrl}}/sales
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "customer_id": "1fec6683-65fc-4ed1-abb3-9636e7b45f80",
+  "items": [
+    {
+      "product_id": "ec82755b-b9ed-44b0-b2f6-eab424849fb3",
+      "quantity": 1
+    }
+  ]
+}
+
+###
+
+# @name updateCustomerNotFound
+PUT {{baseUrl}}/customers/00000000-0000-0000-0000-000000000000
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "name": "Ghost Customer Account"
+}
+
+###
+
+# @name deleteCustomerFiscalLockViolation
+# Failure Scenario: Customer has active relational records inside the Sales invoice history table.
+DELETE {{baseUrl}}/customers/1fec6683-65fc-4ed1-abb3-9636e7b45f80
+Authorization: Bearer {{token}}
+
+###
+
+# @name deleteCustomerSuccess
+# Success Scenario: Requires a newly generated customer UUID with zero relational trade transaction logs.
+DELETE {{baseUrl}}/customers/1921cada-e8c5-46db-81ac-ee965f588377
+Authorization: Bearer {{token}}

@@ -13,14 +13,36 @@ interface SaleItemInput {
 
 interface CreateSaleRequest {
   user_id: string;
+  customer_id?: string; // INJETADO: Suporte relacional ao CRM
   customer_name?: string;
   items: SaleItemInput[];
 }
 
 export class CreateSaleService {
-  async execute({ user_id, customer_name, items }: CreateSaleRequest) {
+  async execute({
+    user_id,
+    customer_id,
+    customer_name,
+    items,
+  }: CreateSaleRequest) {
     if (!items || items.length === 0) {
       throw new Error("A venda precisa conter pelo menos um item.");
+    }
+
+    // Validação prévia de segurança: se enviar customer_id, checa se ele existe e pertence ao lojista
+    if (customer_id) {
+      const customerExists = await prisma.customer.findFirst({
+        where: {
+          id: customer_id,
+          user_id: user_id,
+        },
+      });
+
+      if (!customerExists) {
+        throw new Error(
+          "O cliente informado não foi encontrado ou pertence a outra loja.",
+        );
+      }
     }
 
     const productIds = items.map((item) => item.product_id);
@@ -92,6 +114,7 @@ export class CreateSaleService {
       const sale = await tx.sale.create({
         data: {
           user_id,
+          customer_id: customer_id || null, // INJETADO: Gravando a FK no banco de dados
           customer_name: customer_name || null,
           total_price: totalPrice,
           sale_items: {

@@ -9,14 +9,22 @@ import { ListSalesController } from "./controllers/ListSalesController.js";
 import { DeleteProductController } from "./controllers/DeleteProductController.js";
 import { UpdateProductController } from "./controllers/UpdateProductController.js";
 import { ExportSalesController } from "./controllers/ExportSalesController.js";
+import { CreateCustomerController } from "./controllers/CreateCustomerController.js";
+import { ListCustomersController } from "./controllers/ListCustomersController.js";
+import { UpdateCustomerController } from "./controllers/UpdateCustomerController.js";
+import { DeleteCustomerController } from "./controllers/DeleteCustomerController.js";
 
 const routes = Router();
 
-// 🏛️ CENTRALIZAÇÃO DE INSTÂNCIAS (Todas juntas no mesmo escopo de infraestrutura)
+// 🏛️ CENTRALIZAÇÃO DE INSTÂNCIAS
 const listSalesController = new ListSalesController();
 const deleteProductController = new DeleteProductController();
 const updateProductController = new UpdateProductController();
 const exportSalesController = new ExportSalesController();
+const createCustomerController = new CreateCustomerController();
+const listCustomersController = new ListCustomersController();
+const updateCustomerController = new UpdateCustomerController();
+const deleteCustomerController = new DeleteCustomerController();
 
 // 👤 ROTEAMENTO DE USUÁRIOS E AUTENTICAÇÃO
 routes.post("/users", createUserController.handle);
@@ -37,5 +45,15 @@ routes.get(
   listSalesController.handleMetrics,
 );
 routes.get("/sales/export", isAuthenticated, exportSalesController.handle);
+
+// 👥 MÓDULO DE CRM / CLIENTES (Protegidos por JWT)
+routes.post("/customers", isAuthenticated, createCustomerController.handle);
+routes.get("/customers", isAuthenticated, listCustomersController.handle);
+routes.put("/customers/:id", isAuthenticated, updateCustomerController.handle);
+routes.delete(
+  "/customers/:id",
+  isAuthenticated,
+  deleteCustomerController.handle,
+);
 
 export default routes;

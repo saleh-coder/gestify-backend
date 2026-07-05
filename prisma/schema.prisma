@@ -1,5 +1,5 @@
 datasource db {
-  provider  = "postgresql"
+  provider = "postgresql"
 }
 
 generator client {
@@ -7,13 +7,14 @@ generator client {
 }
 
 model User {
-  id            String    @id @default(uuid())
+  id            String     @id @default(uuid())
   name          String
-  email         String    @unique
+  email         String     @unique
   password_hash String
-  created_at    DateTime  @default(now())
+  created_at    DateTime   @default(now())
   products      Product[]
   sales         Sale[]
+  customers     Customer[] 
 
   @@map("users")
 }
@@ -31,9 +32,24 @@ model Product {
   @@map("products")
 }
 
+model Customer {
+  id         String   @id @default(uuid())
+  name       String
+  email      String?  // Opcional para cadastros rápidos no balcão
+  phone      String?
+  created_at DateTime @default(now())
+  user_id    String
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  sales      Sale[]   // Histórico de compras do cliente no CRM
+
+  @@map("customers")
+}
+
 model Sale {
   id            String     @id @default(uuid())
-  customer_name String?
+  customer_name String?    // Mantido para compatibilidade de texto livre
+  customer_id   String?    // Chave Estrangeira opcional vinculada ao CRM
+  customer      Customer?  @relation(fields: [customer_id], references: [id], onDelete: SetNull)
   total_price   Decimal    @db.Decimal(10, 2)
   created_at    DateTime   @default(now())
   user_id       String

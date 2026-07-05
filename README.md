@@ -1,113 +1,130 @@
-# 📑 Gestify – Motor Backend ERP
+# 📑 Gestify – ERP Backend Engine
 
-Um motor backend de alta performance, fortemente tipado, projetado para capacitar pequenos comerciantes locais através da substituição do controle manual em papel por um ecossistema robusto de gerenciamento de estoque e vendas integrado à nuvem.
-
----
-
-## 🏛️ Estratégia Arquitetural e Justificativa de Negócio
-
-Este repositório foi construído com foco estrito em princípios de código limpo (Clean Code), escolhas técnicas conscientes e alinhamento com as necessidades de negócio:
-
-- **Autoridade Técnica (Arquitetura):** Desenvolvido utilizando uma arquitetura desacoplada em camadas (Controladores, Serviços e Configurações) [^4^]. A compilação estrita do TypeScript garante a segurança de tipos em tempo de desenvolvimento, enquanto o Prisma 7 isola as operações de dados das regras de negócio.
-- **Lógica de Engenharia (Decisão do Banco de Dados):** O PostgreSQL foi escolhido em vez de alternativas NoSQL para garantir total conformidade com as regras ACID. Isso assegura a integridade referencial rígida para dados financeiros sensíveis e bloqueia a corrupção de dados diretamente no nível do banco.
-- **Impacto Operacional:** Criado para resolver uma dor real de comércios tradicionais. A aplicação automatiza os ajustes de estoque e os relatórios de vendas, transformando processos manuais em inteligência de dados escalável.
+A high-performance, strongly typed backend engine designed to empower small local merchants by replacing manual paper tracking with a robust cloud-integrated inventory and sales management ecosystem.
 
 ---
 
-## 🎯 Funcionalidades Principais e Escopo (O Projeto Completo)
+## 🏛️ Architectural Strategy and Business Justification
 
-O motor do Gestify foi planejado para gerenciar o ciclo operacional completo de uma pequena empresa:
+This repository was engineered with a strict focus on Clean Code principles, intentional technical choices, and business alignment:
 
-1.  **Autenticação do Comerciante:** Cadastro seguro e controle de sessão através de tokens criptografados.
-2.  **Controle Inteligente de Estoque (CRUD):** Gerenciamento completo de produtos atrelado estritamente ao dono da loja autenticado.
-3.  **Motor de Vendas Transacional:** Registro de vendas com subtração de estoque em tempo real e proteção contra a alteração histórica de preços.
-4.  **Painel de Insights Financeiros:** Consultas de alta performance que entregam métricas como faturamento total e produtos mais vendidos.
-
----
-
-## 🗺️ Roadmap do Projeto e Status Atual
-
-Para demonstrar o planejamento e acompanhamento de um projeto profissional, o desenvolvimento está dividido em etapas claras:
-
-- [x] **Etapa 1: Arquitetura e Cadastro do Comerciante**
-  - [x] Modelagem do banco de dados (PostgreSQL + Schemas do Prisma).
-  - [x] Criptografia de senha segura com Bcrypt.
-  - [x] Configuração da estrutura em camadas (Controllers, Services, Routes, Express Server) [^4^].
-- [x] **Etapa 2: Segurança e Portão de Autenticação**
-  - [x] Rota de login com validação de senha.
-  - [x] Geração de sessão através de JSON Web Tokens (JWT).
-  - [x] Middleware de proteção de rotas para interceptar requisições não autorizadas.
-- [x] **Etapa 3: Motor de Estoque (CRUD de Produtos)**
-  - [x] Mapeamento da entidade de Produtos.
-  - [x] Isolamento de dados por lojista (um comerciante só altera seu próprio estoque).
-- [x] **Etapa 4: Transações Financeiras e Checkout**
-  - [x] Processamento de vendas com múltiplos itens.
-  - [x] Subtração de níveis de estoque com segurança ACID.
-  - [x] Travamento histórico de preços dentro de entidades intermediárias.
-- [x] **Etapa 5: Histórico de Vendas e Relatórios**
-  - [x] Rota de listagem de vendas efetuadas por comerciante (`GET /sales`).
-  - [x] Painel de insights com faturamento total e produto mais vendido (`GET /sales/metrics`).
-  - [x] **Etapa 6: Otimização de Consultas e Gerenciamento Avançado**
-  - [x] Paginação de resultados com os operadores `take` e `skip` do Prisma na listagem de vendas.
-  - [x] Filtro por período de datas nas métricas financeiras utilizando query parameters.
-  - [x] Rotas de atualização (`PUT /products/:id`) e exclusão física (`DELETE /products/:id`) para manutenção do catálogo.
-- [x] **Etapa 7: Exportação de Relatórios e Auditoria Fiscal**
-  - [x] Endpoint de exportação de dados operacionais em formato CSV para contabilidade do lojista.
-  - [x] Implementação de regras de imutabilidade de vendas (bloqueio total a requisições PUT/DELETE em faturamentos concluídos).
-  - [x] Criação de middleware global interceptador de exceções para tratamento limpo de erros de banco em produção.
+- **Technical Authority (Architecture):** Developed using a decoupled layered architecture (Controllers, Services, and Configurations). Strict TypeScript compilation ensures compile-time type safety, while Prisma 7 isolates database operations from core business rules.
+- **Engineering Logic (Database Selection):** PostgreSQL was chosen over NoSQL alternatives to guarantee full ACID compliance. This ensures rigid referential integrity for sensitive financial data and blocks data corruption at the database level.
+- **Operational Impact:** Created to solve real pain points for traditional retail storefronts. The application automates inventory adjustments and sales auditing logs, converting manual workflows into scalable data intelligence.
 
 ---
 
-## 🛠️ Tecnologias e Dependências
+## 🎯 Core Features and Scope (The Complete Project)
 
-### Aplicação Principal (Produção)
+The Gestify engine is planned to manage the complete operational lifecycle of a small business:
 
-- **Node.js & Express:** Servidor HTTP leve com configuração moderna de ES Modules.
-- **Prisma 7 & `@prisma/adapter-pg`:** ORM de última geração utilizando arquitetura de conexão otimizada para nuvem.
-- **PostgreSQL (Banco de Dados Neon Cloud):** Banco relacional com regras nativas de SSL e desvio de pool de conexões.
-- **Bcrypt:** Algoritmo de criptografia seguro para ocultação unidirecional de senhas.
-- **Dotenv:** Encapsulamento de variáveis de ambiente em tempo de execução.
-
-### Ferramentas de Engenharia (Desenvolvimento)
-
-- **TypeScript:** Compilador de tipagem segura visando o padrão estrito ES2022.
-- **tsx:** Execução nativa e em tempo real de TypeScript com hot-reloading.
-- **Prisma CLI:** Motor automatizado de migrações de banco de dados e geração de cliente.
+1. **Merchant Authentication:** Secure sign-up and session control using encrypted tokens.
+2. **Intelligent Inventory Control (CRUD):** Full product management securely scoped to the authenticated store owner.
+3. **Transactional Sales Engine:** Real-time checkout processing with automated inventory reduction and absolute historical price lock protection.
+4. **Financial Analytics Dashboard:** High-performance queries delivering instant metrics such as total revenue and top-selling items.
 
 ---
 
-## 🚀 Instalação e Configuração Local
+## 🗺️ Project Roadmap and Current Status
 
-1. **Clone o repositório:**
+To maintain professional project management standards, development is tracked across sequential stages:
+
+- [x] **Stage 1: Architecture and Merchant Registration**
+  - [x] Database modeling (PostgreSQL + Prisma Schemas).
+  - [x] Secure password hashing using Bcrypt.
+  - [x] Layered codebase structure setup (Controllers, Services, Routes, Express Server).
+- [x] **Stage 2: Security and Authentication Gate**
+  - [x] Login route with password verification rules.
+  - [x] Session generation via JSON Web Tokens (JWT).
+  - [x] Route guard middleware to intercept unauthorized API requests.
+- [x] **Stage 3: Inventory Motor (Product CRUD)**
+  - [x] Mapping the Product entity.
+  - [x] Explicit multi-tenant merchant data isolation (owners only touch their own stock items).
+- [x] **Stage 4: Financial Transactions and Checkout Infrastructure**
+  - [x] Multiple-item invoice sales processing.
+  - [x] Stock level deduction backed by ACID database transaction safety.
+  - [x] Rigid historical price trapping inside relational intermediate entities.
+- [x] **Stage 5: Sales Auditing History and Reporting**
+  - [x] Merchant-scoped sales extraction endpoint (`GET /sales`).
+  - [x] Live metrics calculation pane providing total gross revenue and best sellers (`GET /sales/metrics`).
+- [x] **Stage 6: Query Optimization and Advanced Management**
+  - [x] Pagination filters using Prisma's native `take` and `skip` operators on sales records.
+  - [x] Date-interval temporal aggregation queries using query parameters.
+  - [x] Catalog mutations via update (`PUT /products/:id`) and physical removal (`DELETE /products/:id`) pipelines.
+- [x] **Stage 7: Report Export and Fiscal Auditing Protection**
+  - [x] Data extraction endpoint generating standard accounting-compliant CSV files.
+  - [x] Sales history immutability block (absolute rejection of PUT/DELETE requests on settled invoices).
+  - [x] Global uncaught exception interceptor middleware handling raw database errors cleanly.
+- [x] **Stage 8: Customer Module (Basic CRM Feature)**
+  - [x] Database evolution mapping the Customer entity into the merchant's relational ecosystem.
+  - [x] Isolated CRUD endpoints underneath the protected `/customers` prefix route scope.
+  - [x] Checkout transaction refactoring linking active financial sales records directly to registered CRM users.
+- [ ] **Stage 9: Token Refactoring and Session Persistence (Security Evolution)**
+  - [ ] Implementation of the Refresh Token pattern in the database to prevent abrupt user logouts.
+  - [ ] Endpoint `/auth/refresh` to issue new short-lived Access Tokens using valid long-lived Refresh Tokens.
+  - [ ] Automatic revocation mechanism for leaked or expired security tokens.
+- [ ] **Stage 10: Multi-Category Catalog and Automated Seed Ingestion**
+  - [ ] Schema evolution to support specialized product categories (`Category` 1:N `Product`).
+  - [ ] Implementation of a production-grade database seed script (`prisma/seed.ts`) using clean mock data.
+  - [ ] Performance testing and indexing (`@@index`) for accelerated categorization filters.
+- [ ] **Stage 11: Production Build Optimization and Final Deployment**
+  - [ ] Target compilation adjustment to production JavaScript inside a dedicated output folder (`/dist`).
+  - [ ] Pruning development modules and executing runtime verification checks (`tsc --noEmit`).
+  - [ ] Server configuration readiness for environment platforms (Render, Railway, or VPS deployment).
+
+---
+
+## 🛠️ Technologies and Dependencies
+
+### Core Application (Production)
+
+- **Node.js & Express:** Lightweight HTTP server leveraging modern ES Modules settings.
+- **Prisma 7 & `@prisma/adapter-pg`:** Next-generation ORM utilizing connection-pooling optimization patterns for cloud instances.
+- **Native Driver `pg`:** High-performance database driver injected with custom SSL bypass parameters.
+- **Bcrypt:** Secure one-way hashing algorithm for password masking protection.
+- **Dotenv:** Safe runtime environment variables management.
+
+### Engineering Tooling (Development)
+
+- **TypeScript:** Type-safe static checker targeting the strict ES2022 framework standard.
+- **tsx:** Real-time native execution engine for TypeScript scripts featuring hot-reloading.
+- **Prisma CLI:** Automated tool for infrastructure database schema synchronization and programmatic client generation.
+
+---
+
+## 🚀 Installation and Local Setup
+
+1. **Clone the repository:**
 
    ```bash
    git clone https://github.com
    cd gestify-backend
    ```
 
-2. **Instale as dependências:**
+2. **Install core dependencies:**
 
    ```bash
    npm install
    ```
 
-3. **Configure as Variáveis de Ambiente:**
-   Crie um arquivo `.env` na raiz do projeto:
+3. **Configure Environment Variables:**
+   Create a `.env` file at the root directory of the application:
 
    ```env
    PORT=3000
-   DATABASE_URL="sua_url_de_pool_do_neon"
-   DIRECT_URL="sua_url_direta_do_neon"
+   DATABASE_URL="your_neon_cloud_connection_pool_url"
+   DIRECT_URL="your_neon_cloud_direct_connection_url"
+   JWT_SECRET="your_secure_jwt_signing_token_string"
    ```
 
-4. **Sincronize as Migrações do Banco:**
+4. **Synchronize Database Schemas:**
 
    ```bash
-   npx prisma migrate dev --name init
+   npx prisma db push
    npx prisma generate
    ```
 
-5. **Inicie o Servidor de Desenvolvimento:**
+5. **Spin Up the Local Development Server:**
    ```bash
    npm run dev
    ```
