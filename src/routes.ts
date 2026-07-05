@@ -11,6 +11,7 @@ import createProductController from "./controllers/CreateProductController.js";
 import listProductsController from "./controllers/ListProductsController.js";
 import { isAuthenticated } from "./config/isAuthenticated.js";
 import { createSaleController } from "./controllers/CreateSaleController.js";
+import { ListSalesController } from "./controllers/ListSalesController.js";
 
 const routes = Router();
 
@@ -24,5 +25,15 @@ routes.get("/products", isAuthenticated, listProductsController.handle);
 
 // Roteamento de Vendas e Checkout (Protegido)
 routes.post("/sales", isAuthenticated, createSaleController.handle);
+
+const listSalesController = new ListSalesController();
+
+// Adicionar ao bloco de rotas autenticadas:
+routes.get("/sales", isAuthenticated, listSalesController.handleList);
+routes.get(
+  "/sales/metrics",
+  isAuthenticated,
+  listSalesController.handleMetrics,
+);
 
 export default routes;
