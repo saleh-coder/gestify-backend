@@ -15,6 +15,7 @@ Content-Type: application/json
 ###
 
 ### Rota de Autenticação (Login)
+# @name login
 POST http://localhost:3000/auth
 Content-Type: application/json
 
@@ -25,6 +26,9 @@ Content-Type: application/json
 
 ###
 
+### 🔑 VARIÁVEL GLOBAL DO TOKEN (Atualize aqui quando expirar)
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW1hbCBTYWxlaCIsImVtYWlsIjoiYW1hbEBlbWFpbC5jb20iLCJpYXQiOjE3ODMyMTMwMTIsImV4cCI6MTc4MzI5OTQxMiwic3ViIjoiYmI4MWEyN2YtMjE3Yy00YWE1LThlMzUtMzY4NTk1M2YyOGVjIn0.jZtRRHUwRdDwabrQYpXvjUp9GdxNtP51M98GwV_vxJw
+
 ### ==========================================
 ### ETAPA 3: PRODUTOS (ROTAS PROTEGIDAS)
 ### ==========================================
@@ -32,7 +36,7 @@ Content-Type: application/json
 ### Cadastro de Produto - PROTEGIDA
 POST http://localhost:3000/products
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW1hbCBTYWxlaCIsImVtYWlsIjoiYW1hbEBlbWFpbC5jb20iLCJpYXQiOjE3ODMxMjQ4ODQsImV4cCI6MTc4MzIxMTI4NCwic3ViIjoiYmI4MWEyN2YtMjE3Yy00YWE1LThlMzUtMzY4NTk1M2YyOGVjIn0.4Mo79Fnjj1-w1PqQL0qyni_knWJH8XLuxoFA6k4hbAA
+Authorization: Bearer {{token}}
 
 {
   "name": "Camiseta Algodão Premium V2",
@@ -44,9 +48,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW1hbCBTY
 ###
 
 ### Listagem de Produtos - PROTEGIDA
-# Substitua o token abaixo pelo gerado no login mais recente
 GET http://localhost:3000/products
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW1hbCBTYWxlaCIsImVtYWlsIjoiYW1hbEBlbWFpbC5jb20iLCJpYXQiOjE3ODMxMjgwNzcsImV4cCI6MTc4MzIxNDQ3Nywic3ViIjoiYmI4MWEyN2YtMjE3Yy00YWE1LThlMzUtMzY4NTk1M2YyOGVjIn0.zSIuUhQAZ7V7CoEuj2384kEq7EoRIThpL1Pp1IbliYY
+Authorization: Bearer {{token}}
 
 ###
 
@@ -55,10 +58,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW1hbCBTY
 ### ==========================================
 
 ### Registrar uma Nova Venda com Sucesso
-# Venda ajustada para focar apenas no produto real que você possui em estoque
 POST http://localhost:3000/sales
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW1hbCBTYWxlaCIsImVtYWlsIjoiYW1hbEBlbWFpbC5jb20iLCJpYXQiOjE3ODMxMjgwNzcsImV4cCI6MTc4MzIxNDQ3Nywic3ViIjoiYmI4MWEyN2YtMjE3Yy00YWE1LThlMzUtMzY4NTk1M2YyOGVjIn0.zSIuUhQAZ7V7CoEuj2384kEq7EoRIThpL1Pp1IbliYY
+Authorization: Bearer {{token}}
 
 {
   "customer_name": "Maria do Bolo",
@@ -73,10 +75,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW1hbCBTY
 ###
 
 ### Testar Erro: Venda com Estoque Insuficiente
-# Testando o Rollback automático usando o seu ID de produto real com quantidade abusiva
 POST http://localhost:3000/sales
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW1hbCBTYWxlaCIsImVtYWlsIjoiYW1hbEBlbWFpbC5jb20iLCJpYXQiOjE3ODMxMjQ4ODQsImV4cCI6MTc4MzIxMTI4NCwic3ViIjoiYmI4MWEyN2YtMjE3Yy00YWE1LThlMzUtMzY4NTk1M2YyOGVjIn0.4Mo79Fnjj1-w1PqQL0qyni_knWJH8XLuxoFA6k4hbAA
+Authorization: Bearer {{token}}
 
 {
   "customer_name": "Cliente Teste Erro",
@@ -87,3 +88,17 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW1hbCBTY
     }
   ]
 }
+
+### ==========================================
+### 📊 ETAPA 5: HISTÓRICO E MÉTRICAS
+### ==========================================
+
+### Listar Histórico de Vendas
+GET http://localhost:3000/sales
+Authorization: Bearer {{token}}
+
+###
+
+### Obter Dashboard de Insights Financeiros
+GET http://localhost:3000/sales/metrics
+Authorization: Bearer {{token}}
