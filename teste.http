@@ -165,3 +165,8 @@ Authorization: Bearer {{token}}
 # @name exportSalesToCSV
 GET {{baseUrl}}/sales/export
 Authorization: Bearer {{token}}
+
+### 🏥 API Health Status Check
+GET {{baseUrl}}/health
+
+###

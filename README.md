@@ -51,10 +51,10 @@ Para demonstrar o planejamento e acompanhamento de um projeto profissional, o de
   - [x] Paginação de resultados com os operadores `take` e `skip` do Prisma na listagem de vendas.
   - [x] Filtro por período de datas nas métricas financeiras utilizando query parameters.
   - [x] Rotas de atualização (`PUT /products/:id`) e exclusão física (`DELETE /products/:id`) para manutenção do catálogo.
-- [ ] **Etapa 7: Exportação de Relatórios e Auditoria Fiscal**
+- [x] **Etapa 7: Exportação de Relatórios e Auditoria Fiscal**
   - [x] Endpoint de exportação de dados operacionais em formato CSV para contabilidade do lojista.
-  - [ ] Implementação de regras de imutabilidade de vendas (bloqueio total a requisições PUT/DELETE em faturamentos concluídos).
-  - [ ] Criação de middleware global interceptador de exceções para tratamento limpo de erros de banco em produção.
+  - [x] Implementação de regras de imutabilidade de vendas (bloqueio total a requisições PUT/DELETE em faturamentos concluídos).
+  - [x] Criação de middleware global interceptador de exceções para tratamento limpo de erros de banco em produção.
 
 ---
 
