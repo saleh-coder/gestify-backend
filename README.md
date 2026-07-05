@@ -47,10 +47,10 @@ Para demonstrar o planejamento e acompanhamento de um projeto profissional, o de
 - [x] **Etapa 5: Histórico de Vendas e Relatórios**
   - [x] Rota de listagem de vendas efetuadas por comerciante (`GET /sales`).
   - [x] Painel de insights com faturamento total e produto mais vendido (`GET /sales/metrics`).
-  - [ ] **Etapa 6: Otimização de Consultas e Gerenciamento Avançado**
-  - [ ] Paginação de resultados com os operadores `take` e `skip` do Prisma na listagem de vendas.
-  - [ ] Filtro por período de datas nas métricas financeiras utilizando query parameters.
-  - [ ] Rotas de atualização (`PUT /products/:id`) e exclusão física (`DELETE /products/:id`) para manutenção do catálogo.
+  - [x] **Etapa 6: Otimização de Consultas e Gerenciamento Avançado**
+  - [x] Paginação de resultados com os operadores `take` e `skip` do Prisma na listagem de vendas.
+  - [x] Filtro por período de datas nas métricas financeiras utilizando query parameters.
+  - [x] Rotas de atualização (`PUT /products/:id`) e exclusão física (`DELETE /products/:id`) para manutenção do catálogo.
 - [ ] **Etapa 7: Exportação de Relatórios e Auditoria Fiscal**
   - [ ] Endpoint de exportação de dados operacionais em formato CSV para contabilidade do lojista.
   - [ ] Implementação de regras de imutabilidade de vendas (bloqueio total a requisições PUT/DELETE em faturamentos concluídos).

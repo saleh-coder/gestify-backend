@@ -12,23 +12,28 @@ import listProductsController from "./controllers/ListProductsController.js";
 import { isAuthenticated } from "./config/isAuthenticated.js";
 import { createSaleController } from "./controllers/CreateSaleController.js";
 import { ListSalesController } from "./controllers/ListSalesController.js";
+import { DeleteProductController } from "./controllers/DeleteProductController.js";
+import { UpdateProductController } from "./controllers/UpdateProductController.js";
 
 const routes = Router();
 
-// Roteamento de Usuários e Autenticação
+// 🏛️ CENTRALIZAÇÃO DE INSTÂNCIAS (Todas juntas no mesmo escopo de infraestrutura)
+const listSalesController = new ListSalesController();
+const deleteProductController = new DeleteProductController();
+const updateProductController = new UpdateProductController();
+
+// 👤 ROTEAMENTO DE USUÁRIOS E AUTENTICAÇÃO
 routes.post("/users", createUserController.handle);
 routes.post("/auth", authUserController.handle);
 
-// Roteamento de Produtos (Protegidos)
+// 📦 ROTEAMENTO DE PRODUTOS (Protegidos por JWT)
 routes.post("/products", isAuthenticated, createProductController.handle);
 routes.get("/products", isAuthenticated, listProductsController.handle);
+routes.put("/products/:id", isAuthenticated, updateProductController.handle);
+routes.delete("/products/:id", isAuthenticated, deleteProductController.handle);
 
-// Roteamento de Vendas e Checkout (Protegido)
+// 💰 ROTEAMENTO DE VENDAS E CHECKOUT (Protegidos por JWT)
 routes.post("/sales", isAuthenticated, createSaleController.handle);
-
-const listSalesController = new ListSalesController();
-
-// Adicionar ao bloco de rotas autenticadas:
 routes.get("/sales", isAuthenticated, listSalesController.handleList);
 routes.get(
   "/sales/metrics",

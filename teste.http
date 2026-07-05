@@ -1,10 +1,17 @@
 ### ==========================================
-### ETAPA 1 e 2: USUÁRIOS E AUTENTICAÇÃO
+### ENVIRONMENT & CONFIGURATION
+### ==========================================
+@baseUrl = http://localhost:3000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW1hbCBTYWxlaCIsImVtYWlsIjoiYW1hbEBlbWFpbC5jb20iLCJpYXQiOjE3ODMyMTMwMTIsImV4cCI6MTc4MzI5OTQxMiwic3ViIjoiYmI4MWEyN2YtMjE3Yy00YWE1LThlMzUtMzY4NTk1M2YyOGVjIn0.jZtRRHUwRdDwabrQYpXvjUp9GdxNtP51M98GwV_vxJw
+@contentType = application/json
+
+### ==========================================
+### STAGE 1 & 2: USERS & AUTHENTICATION
 ### ==========================================
 
-### Cadastro de Comerciante
-POST http://localhost:3000/users
-Content-Type: application/json
+# @name registerMerchant
+POST {{baseUrl}}/users
+Content-Type: {{contentType}}
 
 {
   "name": "Amal Saleh",
@@ -14,28 +21,22 @@ Content-Type: application/json
 
 ###
 
-### Rota de Autenticação (Login)
-# @name login
-POST http://localhost:3000/auth
-Content-Type: application/json
+# @name authenticateMerchant
+POST {{baseUrl}}/auth
+Content-Type: {{contentType}}
 
 {
   "email": "amal@email.com",
   "password_plain": "senha123"
 }
 
-###
-
-### 🔑 VARIÁVEL GLOBAL DO TOKEN (Atualize aqui quando expirar)
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW1hbCBTYWxlaCIsImVtYWlsIjoiYW1hbEBlbWFpbC5jb20iLCJpYXQiOjE3ODMyMTMwMTIsImV4cCI6MTc4MzI5OTQxMiwic3ViIjoiYmI4MWEyN2YtMjE3Yy00YWE1LThlMzUtMzY4NTk1M2YyOGVjIn0.jZtRRHUwRdDwabrQYpXvjUp9GdxNtP51M98GwV_vxJw
-
 ### ==========================================
-### ETAPA 3: PRODUTOS (ROTAS PROTEGIDAS)
+### STAGE 3: PRODUCTS (PROTECTED ENDPOINTS)
 ### ==========================================
 
-### Cadastro de Produto - PROTEGIDA
-POST http://localhost:3000/products
-Content-Type: application/json
+# @name createProduct
+POST {{baseUrl}}/products
+Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
 {
@@ -47,19 +48,17 @@ Authorization: Bearer {{token}}
 
 ###
 
-### Listagem de Produtos - PROTEGIDA
-GET http://localhost:3000/products
+# @name listProducts
+GET {{baseUrl}}/products
 Authorization: Bearer {{token}}
 
-###
-
 ### ==========================================
-### ETAPA 4: TRANSAÇÕES FINANCEIRAS E CHECKOUT
+### STAGE 4: TRANSACTION MANAGEMENT & CHECKOUT
 ### ==========================================
 
-### Registrar uma Nova Venda com Sucesso
-POST http://localhost:3000/sales
-Content-Type: application/json
+# @name checkoutSuccess
+POST {{baseUrl}}/sales
+Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
 {
@@ -74,9 +73,9 @@ Authorization: Bearer {{token}}
 
 ###
 
-### Testar Erro: Venda com Estoque Insuficiente
-POST http://localhost:3000/sales
-Content-Type: application/json
+# @name checkoutErrorInsufficientStock
+POST {{baseUrl}}/sales
+Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
 {
@@ -90,15 +89,70 @@ Authorization: Bearer {{token}}
 }
 
 ### ==========================================
-### 📊 ETAPA 5: HISTÓRICO E MÉTRICAS
+### STAGE 5: AUDIT LOGS & ANALYTICS
 ### ==========================================
 
-### Listar Histórico de Vendas
-GET http://localhost:3000/sales
+# @name getSalesHistory
+GET {{baseUrl}}/sales
 Authorization: Bearer {{token}}
 
 ###
 
-### Obter Dashboard de Insights Financeiros
-GET http://localhost:3000/sales/metrics
+# @name getFinancialMetrics
+GET {{baseUrl}}/sales/metrics
 Authorization: Bearer {{token}}
+
+### ==========================================
+### STAGE 6: PAGINATION & TEMPORAL FILTERS
+### ==========================================
+
+# @name getSalesPaginatedPage1
+GET {{baseUrl}}/sales?page=1&limit=2
+Authorization: Bearer {{token}}
+
+###
+
+# @name getSalesPaginatedPage2
+GET {{baseUrl}}/sales?page=2&limit=2
+Authorization: Bearer {{token}}
+
+###
+
+# @name getSalesFilteredByLast7Days
+GET {{baseUrl}}/sales?days=7
+Authorization: Bearer {{token}}
+
+###
+
+# @name getMetricsFilteredByLast30Days
+GET {{baseUrl}}/sales/metrics?days=30
+Authorization: Bearer {{token}}
+
+### ==========================================
+### STAGE 6: CATALOG MAINTENANCE (MUTATIONS)
+### ==========================================
+
+# @name deleteProductConstraintViolation
+# Failure Scenario: Product is linked to an active invoice (Maria do Bolo). DB constraint must block execution.
+DELETE {{baseUrl}}/products/ec82755b-b9ed-44b0-b2f6-eab424849fb3
+Authorization: Bearer {{token}}
+
+###
+
+# @name deleteProductSuccess
+# Success Scenario: Requires a newly generated UUID from a product with zero transaction history.
+DELETE {{baseUrl}}/products/COLE_AQUI_O_ID_DO_PRODUTO_SEM_VENDAS
+Authorization: Bearer {{token}}
+
+###
+
+# @name updateProductDetails
+PUT {{baseUrl}}/products/ec82755b-b9ed-44b0-b2f6-eab424849fb3
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "name": "Camiseta Algodão Premium Modificada",
+  "price": 89.90,
+  "stock_quantity": 45
+}
