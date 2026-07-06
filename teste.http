@@ -244,3 +244,15 @@ Authorization: Bearer {{token}}
 # Success Scenario: Requires a newly generated customer UUID with zero relational trade transaction logs.
 DELETE {{baseUrl}}/customers/1921cada-e8c5-46db-81ac-ee965f588377
 Authorization: Bearer {{token}}
+
+### ==========================================
+### 🔄 STAGE 9: SESSION REFRESH (TOKEN ROTATION)
+### ==========================================
+
+# @name rotateSessionToken
+POST {{baseUrl}}/auth/refresh
+Content-Type: {{contentType}}
+
+{
+  "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3ODMyOTU1NzQsImV4cCI6MTc4NTg4NzU3NCwic3ViIjoiYmI4MWEyN2YtMjE3Yy00YWE1LThlMzUtMzY4NTk1M2YyOGVjIn0.lSPXUwRGirc-B-BacId3P2RmqR7jPTR6tkDelqbPj7Q"
+}

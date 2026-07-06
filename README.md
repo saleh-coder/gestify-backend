@@ -59,10 +59,10 @@ To maintain professional project management standards, development is tracked ac
   - [x] Database evolution mapping the Customer entity into the merchant's relational ecosystem.
   - [x] Isolated CRUD endpoints underneath the protected `/customers` prefix route scope.
   - [x] Checkout transaction refactoring linking active financial sales records directly to registered CRM users.
-- [ ] **Stage 9: Token Refactoring and Session Persistence (Security Evolution)**
-  - [ ] Implementation of the Refresh Token pattern in the database to prevent abrupt user logouts.
-  - [ ] Endpoint `/auth/refresh` to issue new short-lived Access Tokens using valid long-lived Refresh Tokens.
-  - [ ] Automatic revocation mechanism for leaked or expired security tokens.
+- [x] **Stage 9: Token Refactoring and Session Persistence (Security Evolution)**
+  - [x] Implementation of the Refresh Token pattern in the database to prevent abrupt user logouts.
+  - [x] Endpoint `/auth/refresh` to issue new short-lived Access Tokens using valid long-lived Refresh Tokens.
+  - [x] Automatic revocation mechanism for leaked or expired security tokens.
 - [ ] **Stage 10: Multi-Category Catalog and Automated Seed Ingestion**
   - [ ] Schema evolution to support specialized product categories (`Category` 1:N `Product`).
   - [ ] Implementation of a production-grade database seed script (`prisma/seed.ts`) using clean mock data.

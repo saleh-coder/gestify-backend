@@ -6,19 +6,20 @@ function errorMiddleware(
   res: Response,
   next: NextFunction,
 ): Response {
-  // 1. Captura erros previsíveis lançados intencionalmente pelas camadas de Serviço (Regras de Negócio)
+  // 1. Catch predictable business logic failures thrown intentionally by Service layers
   if (
     error instanceof Error &&
     error.message &&
     !error.stack?.includes("prisma")
   ) {
-    console.warn("⚠️ Validação de Negócio:", error.message);
+    console.warn("⚠️ Business Validation Shielded:", error.message);
     return res.status(400).json({
       error: error.message,
     });
   }
 
-  console.error("❌ INTERNAL SERVER ERROR:", error);
+  // 2. Fallback protection layer for uncaught database or critical server crashes
+  console.error("❌ CRITICAL INTERNAL SERVER ERROR:", error);
 
   return res.status(500).json({
     status: "error",

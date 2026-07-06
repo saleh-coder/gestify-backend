@@ -13,10 +13,12 @@ import { CreateCustomerController } from "./controllers/CreateCustomerController
 import { ListCustomersController } from "./controllers/ListCustomersController.js";
 import { UpdateCustomerController } from "./controllers/UpdateCustomerController.js";
 import { DeleteCustomerController } from "./controllers/DeleteCustomerController.js";
+import { RefreshTokenController } from "./controllers/RefreshTokenController.js";
+import { LogoutController } from "./controllers/LogoutController.js";
 
 const routes = Router();
 
-// 🏛️ CENTRALIZAÇÃO DE INSTÂNCIAS
+// 🏛️ CONTROLLERS CENTRALIZATION
 const listSalesController = new ListSalesController();
 const deleteProductController = new DeleteProductController();
 const updateProductController = new UpdateProductController();
@@ -25,18 +27,22 @@ const createCustomerController = new CreateCustomerController();
 const listCustomersController = new ListCustomersController();
 const updateCustomerController = new UpdateCustomerController();
 const deleteCustomerController = new DeleteCustomerController();
+const refreshTokenController = new RefreshTokenController();
+const logoutController = new LogoutController();
 
-// 👤 ROTEAMENTO DE USUÁRIOS E AUTENTICAÇÃO
+// 👤 MERCHANT REGISTRATION & AUTHENTICATION ENDPOINTS
 routes.post("/users", createUserController.handle);
 routes.post("/auth", authUserController.handle);
+routes.post("/auth/refresh", refreshTokenController.handle);
+routes.post("/auth/logout", isAuthenticated, logoutController.handle); // ✅ ADDED: Secure session revocation endpoint
 
-// 📦 ROTEAMENTO DE PRODUTOS (Protegidos por JWT)
+// 📦 INVENTORY MOTOR & CATALOG PROTECTION (Shielded by JWT)
 routes.post("/products", isAuthenticated, createProductController.handle);
 routes.get("/products", isAuthenticated, listProductsController.handle);
 routes.put("/products/:id", isAuthenticated, updateProductController.handle);
 routes.delete("/products/:id", isAuthenticated, deleteProductController.handle);
 
-// 💰 ROTEAMENTO DE VENDAS E CHECKOUT (Protegidos por JWT)
+// 💰 INVOICE MANAGMENT & TRANSATIONAL CHECKOUT (Shielded by JWT)
 routes.post("/sales", isAuthenticated, createSaleController.handle);
 routes.get("/sales", isAuthenticated, listSalesController.handleList);
 routes.get(
@@ -46,7 +52,7 @@ routes.get(
 );
 routes.get("/sales/export", isAuthenticated, exportSalesController.handle);
 
-// 👥 MÓDULO DE CRM / CLIENTES (Protegidos por JWT)
+// 👥 CRM & CUSTOMER DATA SCRUBBING (Shielded by JWT)
 routes.post("/customers", isAuthenticated, createCustomerController.handle);
 routes.get("/customers", isAuthenticated, listCustomersController.handle);
 routes.put("/customers/:id", isAuthenticated, updateCustomerController.handle);
