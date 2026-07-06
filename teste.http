@@ -2,7 +2,7 @@
 ### ENVIRONMENT & CONFIGURATION
 ### ==========================================
 @baseUrl = http://localhost:3000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW1hbCBTYWxlaCIsImVtYWlsIjoiYW1hbEBlbWFpbC5jb20iLCJpYXQiOjE3ODMyMTMwMTIsImV4cCI6MTc4MzI5OTQxMiwic3ViIjoiYmI4MWEyN2YtMjE3Yy00YWE1LThlMzUtMzY4NTk1M2YyOGVjIn0.jZtRRHUwRdDwabrQYpXvjUp9GdxNtP51M98GwV_vxJw
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3ODMyOTY5NjIsImV4cCI6MTc4NTg4ODk2Miwic3ViIjoiYmI4MWEyN2YtMjE3Yy00YWE1LThlMzUtMzY4NTk1M2YyOGVjIn0.SVD967QGXl48Uayyxv-3vT8vdwJkwnQAO_xArHOgMSU
 @contentType = application/json
 
 ### ==========================================
@@ -256,3 +256,22 @@ Content-Type: {{contentType}}
 {
   "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3ODMyOTU1NzQsImV4cCI6MTc4NTg4NzU3NCwic3ViIjoiYmI4MWEyN2YtMjE3Yy00YWE1LThlMzUtMzY4NTk1M2YyOGVjIn0.lSPXUwRGirc-B-BacId3P2RmqR7jPTR6tkDelqbPj7Q"
 }
+
+### ==========================================
+### 📦 STAGE 10: MULTI-CATEGORY CATALOG MANAGEMENT
+### ==========================================
+
+# @name createCategory
+POST {{baseUrl}}/categories
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "name": "Apparel"
+}
+
+###
+
+# @name listCategories
+GET {{baseUrl}}/categories
+Authorization: Bearer {{token}}

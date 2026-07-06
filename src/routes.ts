@@ -15,6 +15,8 @@ import { UpdateCustomerController } from "./controllers/UpdateCustomerController
 import { DeleteCustomerController } from "./controllers/DeleteCustomerController.js";
 import { RefreshTokenController } from "./controllers/RefreshTokenController.js";
 import { LogoutController } from "./controllers/LogoutController.js";
+import { CreateCategoryController } from "./controllers/CreateCategoryController.js";
+import { ListCategoriesController } from "./controllers/ListCategoriesController.js";
 
 const routes = Router();
 
@@ -29,6 +31,8 @@ const updateCustomerController = new UpdateCustomerController();
 const deleteCustomerController = new DeleteCustomerController();
 const refreshTokenController = new RefreshTokenController();
 const logoutController = new LogoutController();
+const createCategoryController = new CreateCategoryController();
+const listCategoriesController = new ListCategoriesController();
 
 // 👤 MERCHANT REGISTRATION & AUTHENTICATION ENDPOINTS
 routes.post("/users", createUserController.handle);
@@ -41,6 +45,8 @@ routes.post("/products", isAuthenticated, createProductController.handle);
 routes.get("/products", isAuthenticated, listProductsController.handle);
 routes.put("/products/:id", isAuthenticated, updateProductController.handle);
 routes.delete("/products/:id", isAuthenticated, deleteProductController.handle);
+routes.post("/categories", isAuthenticated, createCategoryController.handle);
+routes.get("/categories", isAuthenticated, listCategoriesController.handle);
 
 // 💰 INVOICE MANAGMENT & TRANSATIONAL CHECKOUT (Shielded by JWT)
 routes.post("/sales", isAuthenticated, createSaleController.handle);

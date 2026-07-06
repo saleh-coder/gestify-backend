@@ -20,6 +20,7 @@ model User {
   sales         Sale[]
   customers     Customer[] 
   refresh_token RefreshToken? 
+  categories    Category[]    
 
   @@map("users")
 }
@@ -39,6 +40,17 @@ model RefreshToken {
 // 📦 OPERATIONAL ENTITIES (CATALOG & CRM)
 // ==========================================
 
+model Category {
+  id         String    @id @default(uuid())
+  name       String
+  created_at DateTime  @default(now())
+  user_id    String
+  user       User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  products   Product[]
+
+  @@map("categories")
+}
+
 model Product {
   id             String     @id @default(uuid())
   name           String
@@ -48,6 +60,8 @@ model Product {
   user_id        String
   user           User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
   sale_items     SaleItem[]
+  category_id    String?    
+  category       Category?  @relation(fields: [category_id], references: [id], onDelete: SetNull)
 
   @@map("products")
 }

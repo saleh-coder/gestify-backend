@@ -1,8 +1,8 @@
 /**
  * INFRASTRUCTURE LAYER - DATA CONTEXT
- * Conexão com o Banco de Dados Neon utilizando Prisma e PostgreSQL.
- * Este arquivo gerencia a piscina de conexões (Pool) e injeta o driver
- * nativo pg com bypass de SSL para evitar gargalos com o Cloud Pooler.
+ * Database connection setup using Prisma and PostgreSQL backed by Neon Cloud.
+ * This file orchestrates the pg connection Pool and injects the native pg driver
+ * with an active SSL bypass configuration to eliminate bottlenecks with Cloud Poolers.
  */
 
 import "dotenv/config";
@@ -14,11 +14,11 @@ const connectionString = process.env.DIRECT_URL;
 
 if (!connectionString) {
   throw new Error(
-    "❌ Erro: A variável DIRECT_URL não foi encontrada no arquivo .env",
+    "❌ Error: The DIRECT_URL environment variable was not found in the .env file",
   );
 }
 
-// Configuração do pool de conexões com SSL obrigatório para ambiente Serverless Cloud
+// Dedicated connection pool setting featuring mandatory SSL rules for Serverless Cloud runtimes
 const pool = new pg.Pool({
   connectionString: connectionString,
   ssl: { rejectUnauthorized: false },
