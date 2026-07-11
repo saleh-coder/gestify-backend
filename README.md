@@ -1,130 +1,175 @@
-# 📑 Gestify – ERP Backend Engine
+# 📑 Gestify – ERP Backend API
 
-A high-performance, strongly typed backend engine designed to empower small local merchants by replacing manual paper tracking with a robust cloud-integrated inventory and sales management ecosystem.
-
----
-
-## 🏛️ Architectural Strategy and Business Justification
-
-This repository was engineered with a strict focus on Clean Code principles, intentional technical choices, and business alignment:
-
-- **Technical Authority (Architecture):** Developed using a decoupled layered architecture (Controllers, Services, and Configurations). Strict TypeScript compilation ensures compile-time type safety, while Prisma 7 isolates database operations from core business rules.
-- **Engineering Logic (Database Selection):** PostgreSQL was chosen over NoSQL alternatives to guarantee full ACID compliance. This ensures rigid referential integrity for sensitive financial data and blocks data corruption at the database level.
-- **Operational Impact:** Created to solve real pain points for traditional retail storefronts. The application automates inventory adjustments and sales auditing logs, converting manual workflows into scalable data intelligence.
+A TypeScript backend API designed for small businesses that still rely on manual inventory tracking and paper-based sales records. The project focuses on inventory management, sales processing, customer management, and financial reporting through a relational and transaction-safe architecture.
 
 ---
 
-## 🎯 Core Features and Scope (The Complete Project)
+## Architecture
 
-The Gestify engine is planned to manage the complete operational lifecycle of a small business:
+The project follows a layered architecture separating HTTP concerns from business rules and data access responsibilities:
 
-1. **Merchant Authentication:** Secure sign-up and session control using encrypted tokens.
-2. **Intelligent Inventory Control (CRUD):** Full product management securely scoped to the authenticated store owner.
-3. **Transactional Sales Engine:** Real-time checkout processing with automated inventory reduction and absolute historical price lock protection.
-4. **Financial Analytics Dashboard:** High-performance queries delivering instant metrics such as total revenue and top-selling items.
+- **Controllers** handle request validation and HTTP responses.
+- **Services** encapsulate business rules and application workflows.
+- **Prisma** abstracts database access from business logic.
+- **PostgreSQL** provides transactional consistency and relational modeling.
 
----
+TypeScript strict mode is enabled to reduce runtime errors through compile-time validation.
 
-## 🗺️ Project Roadmap and Current Status
+### Request Flow
 
-To maintain professional project management standards, development is tracked across sequential stages:
-
-- [x] **Stage 1: Architecture and Merchant Registration**
-  - [x] Database modeling (PostgreSQL + Prisma Schemas).
-  - [x] Secure password hashing using Bcrypt.
-  - [x] Layered codebase structure setup (Controllers, Services, Routes, Express Server).
-- [x] **Stage 2: Security and Authentication Gate**
-  - [x] Login route with password verification rules.
-  - [x] Session generation via JSON Web Tokens (JWT).
-  - [x] Route guard middleware to intercept unauthorized API requests.
-- [x] **Stage 3: Inventory Motor (Product CRUD)**
-  - [x] Mapping the Product entity.
-  - [x] Explicit multi-tenant merchant data isolation (owners only touch their own stock items).
-- [x] **Stage 4: Financial Transactions and Checkout Infrastructure**
-  - [x] Multiple-item invoice sales processing.
-  - [x] Stock level deduction backed by ACID database transaction safety.
-  - [x] Rigid historical price trapping inside relational intermediate entities.
-- [x] **Stage 5: Sales Auditing History and Reporting**
-  - [x] Merchant-scoped sales extraction endpoint (`GET /sales`).
-  - [x] Live metrics calculation pane providing total gross revenue and best sellers (`GET /sales/metrics`).
-- [x] **Stage 6: Query Optimization and Advanced Management**
-  - [x] Pagination filters using Prisma's native `take` and `skip` operators on sales records.
-  - [x] Date-interval temporal aggregation queries using query parameters.
-  - [x] Catalog mutations via update (`PUT /products/:id`) and physical removal (`DELETE /products/:id`) pipelines.
-- [x] **Stage 7: Report Export and Fiscal Auditing Protection**
-  - [x] Data extraction endpoint generating standard accounting-compliant CSV files.
-  - [x] Sales history immutability block (absolute rejection of PUT/DELETE requests on settled invoices).
-  - [x] Global uncaught exception interceptor middleware handling raw database errors cleanly.
-- [x] **Stage 8: Customer Module (Basic CRM Feature)**
-  - [x] Database evolution mapping the Customer entity into the merchant's relational ecosystem.
-  - [x] Isolated CRUD endpoints underneath the protected `/customers` prefix route scope.
-  - [x] Checkout transaction refactoring linking active financial sales records directly to registered CRM users.
-- [x] **Stage 9: Token Refactoring and Session Persistence (Security Evolution)**
-  - [x] Implementation of the Refresh Token pattern in the database to prevent abrupt user logouts.
-  - [x] Endpoint `/auth/refresh` to issue new short-lived Access Tokens using valid long-lived Refresh Tokens.
-  - [x] Automatic revocation mechanism for leaked or expired security tokens.
-- [x] **Stage 10: Multi-Category Catalog and Automated Seed Ingestion**
-  - [x] Schema evolution to support specialized product categories (`Category` 1:N `Product`).
-  - [x] Implementation of a production-grade database seed script (`prisma/seed.ts`) using clean mock data.
-  - [x] Performance testing and indexing (`@@index`) for accelerated categorization filters.
-- [ ] **Stage 11: Production Build Optimization and Final Deployment**
-  - [ ] Target compilation adjustment to production JavaScript inside a dedicated output folder (`/dist`).
-  - [ ] Pruning development modules and executing runtime verification checks (`tsc --noEmit`).
-  - [ ] Server configuration readiness for environment platforms (Render, Railway, or VPS deployment).
+```text
+HTTP Request
+    ↓
+Routes
+    ↓
+Controllers
+    ↓
+Services
+    ↓
+Prisma ORM
+    ↓
+PostgreSQL
+```
 
 ---
 
-## 🛠️ Technologies and Dependencies
+## Technical Decisions
 
-### Core Application (Production)
+### PostgreSQL
 
-- **Node.js & Express:** Lightweight HTTP server leveraging modern ES Modules settings.
-- **Prisma 7 & `@prisma/adapter-pg`:** Next-generation ORM utilizing connection-pooling optimization patterns for cloud instances.
-- **Native Driver `pg`:** High-performance database driver injected with custom SSL bypass parameters.
-- **Bcrypt:** Secure one-way hashing algorithm for password masking protection.
-- **Dotenv:** Safe runtime environment variables management.
+PostgreSQL was selected due to its transactional guarantees, relational capabilities, and support for strong consistency requirements commonly found in financial systems.
 
-### Engineering Tooling (Development)
+### Prisma
 
-- **TypeScript:** Type-safe static checker targeting the strict ES2022 framework standard.
-- **tsx:** Real-time native execution engine for TypeScript scripts featuring hot-reloading.
-- **Prisma CLI:** Automated tool for infrastructure database schema synchronization and programmatic client generation.
+Prisma provides type-safe database access, schema management, migrations, and transaction support while reducing manual SQL boilerplate.
+
+### TypeScript
+
+TypeScript enables static analysis and compile-time validation, improving maintainability as the codebase grows.
 
 ---
 
-## 🚀 Installation and Local Setup
+## Features
 
-1. **Clone the repository:**
+### Authentication and Authorization
 
-   ```bash
-   git clone https://github.com
-   cd gestify-backend
-   ```
+- User registration
+- Password hashing using Bcrypt
+- JWT access tokens
+- Refresh token rotation and revocation
+- Protected routes using authentication middleware
 
-2. **Install core dependencies:**
+### Inventory Management
 
-   ```bash
-   npm install
-   ```
+- Product creation, update, listing, and deletion
+- Merchant-level data isolation
+- Product categorization support
 
-3. **Configure Environment Variables:**
-   Create a `.env` file at the root directory of the application:
+### Sales Processing
 
-   ```env
-   PORT=3000
-   DATABASE_URL="your_neon_cloud_connection_pool_url"
-   DIRECT_URL="your_neon_cloud_direct_connection_url"
-   JWT_SECRET="your_secure_jwt_signing_token_string"
-   ```
+- Multi-item sales transactions
+- Automatic stock deduction
+- Historical sale price preservation
+- Immutable completed sales history
 
-4. **Synchronize Database Schemas:**
+### Customer Management
 
-   ```bash
-   npx prisma db push
-   npx prisma generate
-   ```
+- Customer CRUD operations
+- Customer association with sales records
 
-5. **Spin Up the Local Development Server:**
-   ```bash
-   npm run dev
-   ```
+### Reporting and Analytics
+
+- Sales history retrieval
+- Revenue metrics
+- Best-selling products
+- CSV export functionality
+- Pagination and date filtering
+
+---
+
+## Development Progress
+
+- [x] Authentication and authorization
+- [x] Product CRUD
+- [x] Sales processing engine
+- [x] Reporting endpoints
+- [x] CSV export support
+- [x] Customer module
+- [x] Refresh token implementation
+- [x] Product categories
+- [ ] Production deployment configuration
+
+---
+
+## Technology Stack
+
+### Production Dependencies
+
+- Node.js
+- Express
+- PostgreSQL
+- Prisma ORM
+- pg
+- Bcrypt
+- Dotenv
+- JSON Web Token
+
+### Development Tooling
+
+- TypeScript
+- tsx
+- Prisma CLI
+
+---
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com
+cd gestify-backend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Create the environment file:
+
+```env
+PORT=3000
+DATABASE_URL="database_url"
+DIRECT_URL="direct_database_url"
+JWT_SECRET="jwt_secret"
+```
+
+Generate Prisma client and synchronize the database:
+
+```bash
+npx prisma db push
+npx prisma generate
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+---
+
+## Current Project Structure
+
+```text
+src
+├── config
+├── controllers
+├── services
+├── routes.ts
+└── server.ts
+```
+
+This structure keeps business rules isolated from transport concerns and simplifies testing and maintenance as new modules are added.
