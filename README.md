@@ -1,68 +1,41 @@
 # 📑 Gestify – ERP Backend API
 
-A TypeScript backend API designed for small businesses that still rely on manual inventory tracking and paper-based sales records. The project focuses on inventory management, sales processing, customer management, and financial reporting through a relational and transaction-safe architecture.
+A strongly typed backend API designed to help small businesses replace manual inventory tracking and paper-based sales records with a centralized inventory and sales management system.
+
+The project was developed primarily as a learning and portfolio project focused on backend architecture, authentication, relational database modeling, and business rule implementation using modern TypeScript tooling.
 
 ---
 
-## Architecture
+# 🏛️ Architectural Strategy and Technical Decisions
 
-The project follows a layered architecture separating HTTP concerns from business rules and data access responsibilities:
+This repository was built around clear separation of responsibilities and deliberate technical choices.
 
-- **Controllers** handle request validation and HTTP responses.
-- **Services** encapsulate business rules and application workflows.
-- **Prisma** abstracts database access from business logic.
-- **PostgreSQL** provides transactional consistency and relational modeling.
+- **Architecture:** The application follows a layered architecture composed of Controllers, Services, and Configuration modules. Business rules remain isolated from HTTP concerns and database access responsibilities.
 
-TypeScript strict mode is enabled to reduce runtime errors through compile-time validation.
+- **Database Selection:** PostgreSQL was selected due to its transactional guarantees, relational modeling capabilities, and strong consistency requirements commonly found in inventory and sales systems.
 
-### Request Flow
+- **ORM Choice:** Prisma was adopted to provide type-safe database access, schema management, and transaction support while reducing manual SQL boilerplate.
 
-```text
-HTTP Request
-    ↓
-Routes
-    ↓
-Controllers
-    ↓
-Services
-    ↓
-Prisma ORM
-    ↓
-PostgreSQL
-```
+- **Type Safety:** TypeScript strict mode is enabled to provide compile-time validation and reduce runtime errors as the application grows.
 
 ---
 
-## Technical Decisions
+# 🎯 Core Features and Scope
 
-### PostgreSQL
-
-PostgreSQL was selected due to its transactional guarantees, relational capabilities, and support for strong consistency requirements commonly found in financial systems.
-
-### Prisma
-
-Prisma provides type-safe database access, schema management, migrations, and transaction support while reducing manual SQL boilerplate.
-
-### TypeScript
-
-TypeScript enables static analysis and compile-time validation, improving maintainability as the codebase grows.
-
----
-
-## Features
+The Gestify API aims to cover the operational requirements commonly found in small retail businesses.
 
 ### Authentication and Authorization
 
 - User registration
 - Password hashing using Bcrypt
-- JWT access tokens
-- Refresh token rotation and revocation
+- JWT authentication
+- Refresh token implementation
 - Protected routes using authentication middleware
 
 ### Inventory Management
 
 - Product creation, update, listing, and deletion
-- Merchant-level data isolation
+- Merchant-scoped product ownership
 - Product categorization support
 
 ### Sales Processing
@@ -83,38 +56,95 @@ TypeScript enables static analysis and compile-time validation, improving mainta
 - Revenue metrics
 - Best-selling products
 - CSV export functionality
-- Pagination and date filtering
+- Pagination support
+- Date interval filtering
 
 ---
 
-## Development Progress
+# 🗺️ Project Roadmap and Current Status
 
-- [x] Authentication and authorization
-- [x] Product CRUD
-- [x] Sales processing engine
-- [x] Reporting endpoints
-- [x] CSV export support
-- [x] Customer module
-- [x] Refresh token implementation
-- [x] Product categories
-- [ ] Production deployment configuration
+Development is organized into incremental stages to keep feature implementation isolated and manageable.
+
+- [x] **Stage 1: Architecture and Merchant Registration**
+  - [x] PostgreSQL database modeling using Prisma schemas.
+  - [x] Password hashing using Bcrypt.
+  - [x] Initial project structure using Controllers, Services, Routes, and Express.
+
+- [x] **Stage 2: Authentication and Authorization**
+  - [x] Login endpoint with password verification.
+  - [x] JWT access token generation.
+  - [x] Authentication middleware for protected routes.
+
+- [x] **Stage 3: Product Management**
+  - [x] Product entity implementation.
+  - [x] Merchant-level product isolation.
+
+- [x] **Stage 4: Sales Processing**
+  - [x] Multi-item sales transactions.
+  - [x] Stock deduction using database transactions.
+  - [x] Historical sale price preservation.
+
+- [x] **Stage 5: Sales History and Reporting**
+  - [x] Sales history endpoint (`GET /sales`).
+  - [x] Revenue and metrics endpoint (`GET /sales/metrics`).
+
+- [x] **Stage 6: Query Optimization and Management Features**
+  - [x] Pagination using Prisma `take` and `skip`.
+  - [x] Date interval filtering.
+  - [x] Product update and deletion endpoints.
+
+- [x] **Stage 7: Export and Error Handling**
+  - [x] CSV export endpoint.
+  - [x] Sales history immutability rules.
+  - [x] Global error handling middleware.
+
+- [x] **Stage 8: Customer Module**
+  - [x] Customer entity implementation.
+  - [x] Customer CRUD endpoints.
+  - [x] Customer association with sales.
+
+- [x] **Stage 9: Session Persistence**
+  - [x] Refresh token implementation.
+  - [x] Refresh endpoint (`POST /auth/refresh`).
+  - [x] Token revocation mechanism.
+
+- [x] **Stage 10: Categories and Seed Data**
+  - [x] Product category support.
+  - [x] Database seed script.
+  - [x] Database indexing for filtering optimization.
+
+- [x] **Stage 11: Production Build Preparation**
+  - [x] TypeScript compilation to `/dist`.
+  - [x] Production start script configuration.
+  - [x] Runtime validation using compiled JavaScript.
+
+- [ ] **Stage 12: Deployment**
+  - [ ] Environment configuration for deployment platforms.
+  - [ ] Public API deployment.
+  - [ ] Production validation.
+
+- [ ] **Stage 13: Future Improvements**
+  - [ ] Automated tests.
+  - [ ] API documentation.
+  - [ ] Rate limiting.
+  - [ ] Structured logging.
 
 ---
 
-## Technology Stack
+# 🛠️ Technologies and Dependencies
 
-### Production Dependencies
+## Production Dependencies
 
 - Node.js
 - Express
 - PostgreSQL
 - Prisma ORM
 - pg
-- Bcrypt
-- Dotenv
-- JSON Web Token
+- bcrypt
+- dotenv
+- jsonwebtoken
 
-### Development Tooling
+## Development Tooling
 
 - TypeScript
 - tsx
@@ -122,12 +152,12 @@ TypeScript enables static analysis and compile-time validation, improving mainta
 
 ---
 
-## Installation
+# 🚀 Installation and Local Setup
 
 Clone the repository:
 
 ```bash
-git clone https://github.com
+git clone <repository-url>
 cd gestify-backend
 ```
 
@@ -141,16 +171,16 @@ Create the environment file:
 
 ```env
 PORT=3000
-DATABASE_URL="database_url"
-DIRECT_URL="direct_database_url"
-JWT_SECRET="jwt_secret"
+DATABASE_URL=""
+DIRECT_URL=""
+JWT_SECRET=""
 ```
 
-Generate Prisma client and synchronize the database:
+Generate the Prisma client and synchronize the database:
 
 ```bash
-npx prisma db push
 npx prisma generate
+npx prisma db push
 ```
 
 Start the development server:
@@ -159,17 +189,47 @@ Start the development server:
 npm run dev
 ```
 
+Build the production version:
+
+```bash
+npm run build
+```
+
+Run the compiled application:
+
+```bash
+npm start
+```
+
 ---
 
-## Current Project Structure
+# 📁 Project Structure
 
 ```text
+prisma
+└── schema.prisma
+
 src
 ├── config
 ├── controllers
 ├── services
+├── express.d.ts
 ├── routes.ts
 └── server.ts
 ```
 
-This structure keeps business rules isolated from transport concerns and simplifies testing and maintenance as new modules are added.
+---
+
+# 📚 What This Project Demonstrates
+
+This project demonstrates practical experience with:
+
+- REST API development
+- Authentication and authorization
+- Relational database design
+- Transaction handling
+- Layered backend architecture
+- TypeScript development
+- Prisma ORM usage
+- Production build preparation
+- Git workflow and project organization
