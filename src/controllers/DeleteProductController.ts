@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { DeleteProductService } from "../service/DeleteProductService.js";
+import { DeleteProductService } from "../services/DeleteProductService.js";
 
 export class DeleteProductController {
   async handle(req: Request, res: Response) {

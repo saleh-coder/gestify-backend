@@ -4,7 +4,7 @@
  */
 
 import { Request, Response } from "express";
-import { RefreshTokenService } from "../service/RefreshTokenService.js";
+import { RefreshTokenService } from "../services/RefreshTokenService.js";
 
 export class RefreshTokenController {
   async handle(req: Request, res: Response): Promise<Response> {

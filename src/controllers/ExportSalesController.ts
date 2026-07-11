@@ -1,6 +1,6 @@
 import { prisma } from "../config/prisma.js";
 import { Request, Response } from "express";
-import { ExportSalesService } from "../service/ExportSalesService.js";
+import { ExportSalesService } from "../services/ExportSalesService.js";
 
 class ExportSalesController {
   async handle(req: Request, res: Response): Promise<void> {

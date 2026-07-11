@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UpdateProductService } from "../service/UpdateProductService.js";
+import { UpdateProductService } from "../services/UpdateProductService.js";
 
 class UpdateProductController {
   async handle(req: Request, res: Response): Promise<Response> {

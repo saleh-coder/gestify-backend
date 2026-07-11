@@ -5,7 +5,7 @@
  */
 
 import { Request, Response } from "express";
-import { CreateSaleService } from "../service/CreateSaleService.js";
+import { CreateSaleService } from "../services/CreateSaleService.js";
 
 class CreateSaleController {
   async handle(req: Request, res: Response): Promise<Response> {

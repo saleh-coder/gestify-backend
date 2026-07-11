@@ -38,7 +38,7 @@ const listCategoriesController = new ListCategoriesController();
 routes.post("/users", createUserController.handle);
 routes.post("/auth", authUserController.handle);
 routes.post("/auth/refresh", refreshTokenController.handle);
-routes.post("/auth/logout", isAuthenticated, logoutController.handle); // ✅ ADDED: Secure session revocation endpoint
+routes.post("/auth/logout", isAuthenticated, logoutController.handle);
 
 // 📦 INVENTORY MOTOR & CATALOG PROTECTION (Shielded by JWT)
 routes.post("/products", isAuthenticated, createProductController.handle);

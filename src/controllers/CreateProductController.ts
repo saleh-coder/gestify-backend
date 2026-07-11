@@ -5,7 +5,7 @@
  */
 
 import { Request, Response } from "express";
-import { CreateProductService } from "../service/CreateProductService.js";
+import { CreateProductService } from "../services/CreateProductService.js";
 
 class CreateProductController {
   async handle(req: Request, res: Response): Promise<void> {
